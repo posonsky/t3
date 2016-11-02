@@ -15,9 +15,9 @@ class CellCombination extends FieldLine {
 	// private ArrayList<Cell> cells;
 	Map<Double, List<Cell>> potentialCells;
 
-	private char dot;
+	private Dots dot;
 
-	CellCombination(char dot, int type) {
+	CellCombination(Dots dot, int type) {
 		super(type, 0);
 		this.dot = dot;
 
@@ -81,7 +81,7 @@ class CellCombination extends FieldLine {
 		return power;
 	}
 
-	public char getDot() {
+	public Dots getDot() {
 		return dot;
 	}
 

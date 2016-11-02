@@ -2,7 +2,7 @@ package ru.cpositive.t3.logic;
 
 public abstract class Player {
 
-	protected char dot;
+	protected Dots dot;
 	protected GameField gameField;
 
 	public Player(GameField gameField) {

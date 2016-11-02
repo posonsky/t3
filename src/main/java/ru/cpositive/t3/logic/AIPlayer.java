@@ -8,7 +8,7 @@ public class AIPlayer extends Player {
 
 	public AIPlayer(GameField gameField) {
 		super(gameField);
-		this.dot = Params.AI_DOT;
+		this.dot = Dots.AI_DOT;
 	}
 
 	/**
@@ -21,7 +21,7 @@ public class AIPlayer extends Player {
 		Cell blockingCell = gameField.mustAIBlockSomething();
 		if (blockingCell != null) {
 			gameField.setCell(blockingCell.getVert(), blockingCell.getHoriz(),
-					Params.AI_DOT, true);
+					Dots.AI_DOT, true);
 			return;
 		}
 		// Это заглушка для хода ЭВМ, когда нет нужды блокировать
@@ -30,6 +30,6 @@ public class AIPlayer extends Player {
 		do {
 			vert = rand.nextInt(Params.FIELD_SIZE);
 			horiz = rand.nextInt(Params.FIELD_SIZE);
-		} while (!gameField.setCell(vert, horiz, Params.AI_DOT, true));
+		} while (!gameField.setCell(vert, horiz, Dots.AI_DOT, true));
 	}
 }

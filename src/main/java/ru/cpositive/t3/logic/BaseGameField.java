@@ -83,11 +83,11 @@ public abstract class BaseGameField implements GameField {
 		aiCellCombinations = new ArrayList<CellCombination>();
 	}
 
-	public boolean setCell(int vert, int horiz, char dot) {
+	public boolean setCell(int vert, int horiz, Dots dot) {
 		return setCell(vert, horiz, dot, false);
 	}
 
-	public boolean setCell(int vert, int horiz, char dot, boolean queit) {
+	public boolean setCell(int vert, int horiz, Dots dot, boolean queit) {
 		// Попадают ли координаты в пределы игрового поля?
 		int hiBound = Params.FIELD_SIZE - 1;
 		if (vert < 0 || vert > hiBound || horiz < 0 || horiz > hiBound) {
@@ -127,10 +127,10 @@ public abstract class BaseGameField implements GameField {
 		playerCellCombinations.clear();
 		aiCellCombinations.clear();
 
-		char[] dots = { Params.PLAYER_DOT, Params.AI_DOT };
+		Dots[] dots = { Dots.PLAYER_DOT, Dots.AI_DOT };
 
 		// Для каждого знака
-		for (char expectedDot : dots) {
+		for (Dots expectedDot : dots) {
 			// Сканируем все линии
 			for (FieldLine line : lines) {
 				boolean inCombination = false;
@@ -139,7 +139,7 @@ public abstract class BaseGameField implements GameField {
 				CellCombination tmpComb = null;
 
 				for (Cell cell : line.cells) {
-					char currDot = cell.getDot();
+					Dots currDot = cell.getDot();
 
 					if (currDot == expectedDot) {
 						if (!inCombination) {
@@ -149,7 +149,7 @@ public abstract class BaseGameField implements GameField {
 						}
 						tmpComb.append(cell);
 
-					} else if (currDot == Params.EMPTY_DOT) {
+					} else if (currDot == Dots.EMPTY_DOT) {
 						empties.add(cell);
 						gaps++;
 						if (gaps >= maxGaps && inCombination) {
@@ -190,25 +190,28 @@ public abstract class BaseGameField implements GameField {
 		}
 
 		switch (cellComb.getDot()) {
-		case Params.PLAYER_DOT:
+		case PLAYER_DOT:
 			playerCellCombinations.add(cellComb);
 			break;
 
-		case Params.AI_DOT:
+		case AI_DOT:
 			aiCellCombinations.add(cellComb);
+
+		default:
+			break;
 		}
 	}
 
 	/**
 	 * Проверяет, дошла ли игра до терминирующей стадии
 	 */
-	public boolean isFinalState(char dot) {
+	public boolean isFinalState(Dots dot) {
 
 		scanCombinations();
 
 		CellCombination winCombination = getWinCombination(dot);
 		if (winCombination != null) {
-			if (dot == Params.PLAYER_DOT) {
+			if (dot == Dots.PLAYER_DOT) {
 				System.out.println("Поздравляем! Вы выиграли!");
 			} else {
 				System.out.println("Победил искусственный интелект!");
@@ -232,9 +235,9 @@ public abstract class BaseGameField implements GameField {
 	 * Просматривает все существующие комбинации и возвращает при наличии
 	 * выигрышную
 	 */
-	private CellCombination getWinCombination(char dot) {
+	private CellCombination getWinCombination(Dots dot) {
 
-		ArrayList<CellCombination> combinations = dot == Params.PLAYER_DOT
+		ArrayList<CellCombination> combinations = dot == Dots.PLAYER_DOT
 				? playerCellCombinations : aiCellCombinations;
 
 		for (CellCombination cellComb : combinations) {

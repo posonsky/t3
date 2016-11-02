@@ -34,7 +34,7 @@ public class CellCombinationTest {
 
 	@Before
 	public void setUp() throws Exception {
-		cellComb = new CellCombination(Params.PLAYER_DOT,
+		cellComb = new CellCombination(Dots.PLAYER_DOT,
 				CellCombination.VERTICAL);
 	}
 
@@ -55,16 +55,16 @@ public class CellCombinationTest {
 
 	@Test
 	public final void testGetDot() {
-		assertTrue(cellComb.getDot() == Params.PLAYER_DOT);
+		assertTrue(cellComb.getDot() == Dots.PLAYER_DOT);
 	}
 
 	public static CellCombination makeCellCombination(int type, int[][] arr) {
 		CellCombination testComb =
-				new CellCombination(Params.PLAYER_DOT, type);
+				new CellCombination(Dots.PLAYER_DOT, type);
 
 		for (int i = 0; i < arr.length; i++) {
 			Cell cell = new Cell(arr[i][0], arr[i][1]);
-			cell.setDot(Params.PLAYER_DOT);
+			cell.setDot(Dots.PLAYER_DOT);
 			testComb.append(cell);
 		}
 		return testComb;
@@ -99,7 +99,7 @@ public class CellCombinationTest {
 		CellCombination aComb = makeCellCombination(CellCombination.VERTICAL,
 				arr1);
 		Cell aCell = new Cell(1, 2);
-		aCell.setDot(Params.PLAYER_DOT);
+		aCell.setDot(Dots.PLAYER_DOT);
 		aComb.calculatePotentialPower(aCell);
 	}
 

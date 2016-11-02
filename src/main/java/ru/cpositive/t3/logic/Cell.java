@@ -8,7 +8,7 @@ public class Cell {
 			+ "coordinates must to be in from 0 to " + Params.FIELD_SIZE + "!";
 
 	private int vert, horiz;
-	private char dot;
+	private Dots dot;
 
 	Cell(int vert, int horiz) {
 		int hiBound = Params.FIELD_SIZE - 1;
@@ -18,14 +18,14 @@ public class Cell {
 
 		this.vert = vert;
 		this.horiz = horiz;
-		this.dot = Params.EMPTY_DOT;
+		this.dot = Dots.EMPTY_DOT;
 	}
 
 	public boolean isEmpty() {
-		return dot == Params.EMPTY_DOT;
+		return dot == Dots.EMPTY_DOT;
 	}
 
-	public boolean setDot(char dot) {
+	public boolean setDot(Dots dot) {
 		if (isEmpty()) {
 			this.dot = dot;
 			return true;
@@ -33,7 +33,7 @@ public class Cell {
 		return false;
 	}
 
-	public char getDot() {
+	public Dots getDot() {
 		return dot;
 	}
 

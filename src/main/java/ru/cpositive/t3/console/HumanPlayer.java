@@ -2,6 +2,7 @@ package ru.cpositive.t3.console;
 
 import java.util.Scanner;
 
+import ru.cpositive.t3.logic.Dots;
 import ru.cpositive.t3.logic.GameField;
 import ru.cpositive.t3.logic.Params;
 import ru.cpositive.t3.logic.Player;
@@ -13,7 +14,7 @@ public class HumanPlayer extends Player {
 
 	public HumanPlayer(GameField gameField) {
 		super(gameField);
-		this.dot = Params.PLAYER_DOT;
+		this.dot = Dots.PLAYER_DOT;
 	}
 
 	@Override
@@ -29,6 +30,6 @@ public class HumanPlayer extends Player {
 			horiz = scanner.nextInt() - 1;
 			// System.out.println("Real V=" + vert + ", H=" + horiz);
 
-		} while (!gameField.setCell(vert, horiz, Params.PLAYER_DOT));
+		} while (!gameField.setCell(vert, horiz, Dots.PLAYER_DOT));
 	}
 }

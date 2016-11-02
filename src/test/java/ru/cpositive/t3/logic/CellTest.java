@@ -43,13 +43,13 @@ public class CellTest {
 	public final void testSetNGetDot() {
 		Cell cell = new Cell(1, 2);
 
-		assertEquals(cell.getDot(), Params.EMPTY_DOT);
-		assertTrue(cell.setDot(Params.PLAYER_DOT));
-		assertEquals(cell.getDot(), Params.PLAYER_DOT);
-		assertFalse(cell.setDot(Params.AI_DOT));
-		assertFalse(cell.setDot(Params.PLAYER_DOT));
-		assertFalse(cell.setDot(Params.EMPTY_DOT));
-		assertEquals(cell.getDot(), Params.PLAYER_DOT);
+		assertEquals(cell.getDot(), Dots.EMPTY_DOT);
+		assertTrue(cell.setDot(Dots.PLAYER_DOT));
+		assertEquals(cell.getDot(), Dots.PLAYER_DOT);
+		assertFalse(cell.setDot(Dots.AI_DOT));
+		assertFalse(cell.setDot(Dots.PLAYER_DOT));
+		assertFalse(cell.setDot(Dots.EMPTY_DOT));
+		assertEquals(cell.getDot(), Dots.PLAYER_DOT);
 	}
 
 	@Test
