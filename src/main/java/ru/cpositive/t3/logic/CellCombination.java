@@ -154,6 +154,11 @@ class CellCombination extends FieldLine {
 
 		ArrayList<Double> powers = new ArrayList<Double>();
 		powers.addAll(potentialCells.keySet());
+
+		if (powers.size() == 0) {
+			return null;
+		}
+
 		Collections.sort(powers, Collections.reverseOrder());
 		List<Cell> cells = potentialCells.get(powers.get(0));
 		return cells.get(0);
