@@ -11,17 +11,20 @@ import java.awt.geom.Line2D;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
+import ru.cpositive.t3.logic.Cell;
 import ru.cpositive.t3.logic.Dots;
 
 
 public class GUICell extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private Dots dot;
+	private SwingGameField gameField;
+	private Cell cell;
 
-	public GUICell() {
+	public GUICell(SwingGameField gameField, Cell cell) {
 		super();
-		dot = Dots.EMPTY_DOT;
+		this.gameField = gameField;
+		this.cell = cell;
 		setBorder(BorderFactory.createLineBorder(Color.GRAY));
 	}
 
@@ -38,7 +41,7 @@ public class GUICell extends JPanel {
 		// grph2.setColor(Color.GREEN);
 		grph2.setStroke(new BasicStroke(gap / 2));
 
-		switch (dot) {
+		switch (cell.getDot()) {
 		case PLAYER_DOT:
 			// Рисуем крестик
 			grph2.setColor(Color.GREEN);
@@ -58,17 +61,18 @@ public class GUICell extends JPanel {
 	}
 
 	public void allocatePlayer() {
-		dot = Dots.PLAYER_DOT;
-		repaint();
+		if (cell.setDot(Dots.PLAYER_DOT)) {
+			// repaint();
+			gameField.getGame().proceedCycle();
+		} else {
+			String msg = "Эта клетка уже занята";
+			gameField.displayMessage(msg);
+		}
 	}
 
-	public void allocateAI() {
-		dot = Dots.AI_DOT;
-		repaint();
-	}
-
-	public void clear() {
-		dot = Dots.EMPTY_DOT;
-		repaint();
-	}
+	/*
+	 * public void allocateAI() { dot = Dots.AI_DOT; repaint(); }
+	 *
+	 * public void clear() { dot = Dots.EMPTY_DOT; repaint(); }
+	 */
 }

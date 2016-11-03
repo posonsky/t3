@@ -2,22 +2,23 @@ package ru.cpositive.t3;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import ru.cpositive.t3.logic.AIPlayer;
+import ru.cpositive.t3.logic.Dots;
+import ru.cpositive.t3.logic.GameField;
 import ru.cpositive.t3.logic.Params;
-import ru.cpositive.t3.swing.GUICell;
+import ru.cpositive.t3.logic.Player;
+import ru.cpositive.t3.swing.SwingGameField;
 
 
 public class SwingGame extends JFrame {
@@ -26,7 +27,10 @@ public class SwingGame extends JFrame {
 	JButton btnNewGame = new JButton("Новая игра");
 	JButton btnExit = new JButton("Выход");
 	GridLayout layoutTTT = new GridLayout(Params.FIELD_SIZE, Params.FIELD_SIZE);
-	final JPanel panelTTT = new JPanel();
+
+	JPanel panelTTT;
+	GameField gameField;
+	Player aiPlayer;
 
 	public SwingGame(String name) {
 		super(name);
@@ -38,48 +42,13 @@ public class SwingGame extends JFrame {
 		controls.setLayout(new GridLayout(1, 3));
 
 		btnExit.addActionListener((ae) -> exit());
-		btnNewGame.addActionListener((ae) -> newGame());
+		btnNewGame.addActionListener((ae) -> newGame(pane));
 		controls.add(btnNewGame);
 		controls.add(btnExit);
 
-		panelTTT.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		panelTTT.setLayout(layoutTTT);
-		layoutTTT.setHgap(1);
-		layoutTTT.setVgap(1);
-
-		panelTTT.addComponentListener(new ComponentAdapter() {
-			public void componentResized(ComponentEvent ce) {
-				// System.out.println("componentResized");
-				Dimension panelSize = panelTTT.getSize();
-				int minSize = (int) Math.min(panelSize.getHeight(),
-						panelSize.getWidth());
-				panelTTT.setSize(new Dimension(minSize, minSize));
-				layoutTTT.layoutContainer(panelTTT);
-			}
-		});
-
-		// Add cells
-		for (int horiz = 0; horiz < Params.FIELD_SIZE; horiz++) {
-			for (int vert = 0; vert < Params.FIELD_SIZE; vert++) {
-				GUICell cell = new GUICell();
-
-				cell.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseReleased(MouseEvent evt) {
-						if (evt.getButton() == MouseEvent.BUTTON1) {
-							cell.allocatePlayer();
-						} else if (evt.getButton() == MouseEvent.BUTTON3) {
-							cell.allocateAI();
-						}
-					}
-				});
-
-				panelTTT.add(cell);
-			}
-		}
-
-		pane.add(panelTTT, BorderLayout.CENTER);
 		pane.add(controls, BorderLayout.SOUTH);
+
+		newGame(pane);
 	}
 
 	private void exit() {
@@ -88,11 +57,34 @@ public class SwingGame extends JFrame {
 		System.exit(NORMAL);
 	}
 
-	private void newGame() {
-		for (Component cmp : panelTTT.getComponents()) {
-			GUICell cell = (GUICell) cmp;
-			cell.clear();
+	private void newGame(final Container pane) {
+
+		if (panelTTT == null) {
+			panelTTT = new JPanel();
+
+			panelTTT.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+			panelTTT.setLayout(layoutTTT);
+			layoutTTT.setHgap(1);
+			layoutTTT.setVgap(1);
+
+			panelTTT.addComponentListener(new ComponentAdapter() {
+				public void componentResized(ComponentEvent ce) {
+					// System.out.println("componentResized");
+					Dimension panelSize = panelTTT.getSize();
+					int minSize = (int) Math.min(panelSize.getHeight(),
+							panelSize.getWidth());
+					panelTTT.setSize(new Dimension(minSize, minSize));
+					layoutTTT.layoutContainer(panelTTT);
+				}
+			});
+
+			pane.add(panelTTT, BorderLayout.CENTER);
 		}
+
+		gameField = new SwingGameField(this, panelTTT);
+		panelTTT.updateUI();
+
+		aiPlayer = new AIPlayer(gameField);
 	}
 
 	private static void createAndShowGUI() {
@@ -103,6 +95,21 @@ public class SwingGame extends JFrame {
 		frame.setMinimumSize(new Dimension(600, 350));
 		frame.addComponentsToPane(frame.getContentPane());
 		frame.setVisible(true);
+	}
+
+	public void proceedCycle() {
+		gameField.display();
+		if (gameField.isFinalState(Dots.PLAYER_DOT)) {
+			// exit();
+			newGame(this.getContentPane());
+		} else {
+			boolean aiWin = aiPlayer.turn();
+			gameField.display();
+			if (aiWin) {
+				// exit();
+				newGame(this.getContentPane());
+			}
+		}
 	}
 
 	public static void main(String[] args) {

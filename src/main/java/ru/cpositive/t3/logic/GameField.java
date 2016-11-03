@@ -6,7 +6,9 @@ public interface GameField {
 	public Cell mustAIBlockSomething();
 	public void registerCombinations(CellCombination cellComb);
 	public boolean setCell(int vert, int horiz, Dots dot, boolean queit);
-
 	public boolean setCell(int vert, int horiz, Dots dot);
+
 	public void display();
+
+	public void displayMessage(String msg);
 }

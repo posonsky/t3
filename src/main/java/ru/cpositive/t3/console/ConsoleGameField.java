@@ -16,4 +16,8 @@ public class ConsoleGameField extends BaseGameField {
 		}
 	}
 
+	@Override
+	public void displayMessage(String msg) {
+		System.out.println(msg);
+	}
 }

@@ -21,6 +21,11 @@ class TestGameField extends BaseGameField {
 	public void display() {
 		// Мы просто переопределяем метод
 	}
+
+	@Override
+	public void displayMessage(String msg) {
+		// Мы просто переопределяем метод
+	}
 }
 
 

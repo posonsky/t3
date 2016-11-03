@@ -92,8 +92,9 @@ public abstract class BaseGameField implements GameField {
 		int hiBound = Params.FIELD_SIZE - 1;
 		if (vert < 0 || vert > hiBound || horiz < 0 || horiz > hiBound) {
 			if (!queit) {
-				System.out.println("Координаты выходят за пределы поля: " + vert
-						+ ", " + horiz + "!");
+				String msg = "Координаты выходят за пределы поля: " + vert
+						+ ", " + horiz + "!";
+				displayMessage(msg);
 			}
 			return false;
 		}
@@ -101,8 +102,9 @@ public abstract class BaseGameField implements GameField {
 		Cell cell = field[vert][horiz];
 		if (!cell.isEmpty()) {
 			if (!queit) {
-				System.out.println(
-						"Ячейка уже занята: " + ++vert + ", " + ++horiz + "!");
+				String msg = "Ячейка уже занята: " + ++vert + ", " +
+						++horiz + "!";
+				displayMessage(msg);
 				return false;
 			}
 		}
@@ -116,7 +118,7 @@ public abstract class BaseGameField implements GameField {
 	 * System.out.println(); } }
 	 */
 
-	abstract public void display();
+	// abstract public void display();
 
 	/**
 	 * Сканирует линии игрового поля на наличие комбинаций, сохраняет найденные
@@ -212,9 +214,9 @@ public abstract class BaseGameField implements GameField {
 		CellCombination winCombination = getWinCombination(dot);
 		if (winCombination != null) {
 			if (dot == Dots.PLAYER_DOT) {
-				System.out.println("Поздравляем! Вы выиграли!");
+				displayMessage("Поздравляем! Вы выиграли!");
 			} else {
-				System.out.println("Победил искусственный интелект!");
+				displayMessage("Победил искусственный интелект!");
 			}
 			return true;
 		} else {
@@ -226,7 +228,7 @@ public abstract class BaseGameField implements GameField {
 					}
 				}
 			}
-			System.out.println("Победила дружба! Ничья...");
+			displayMessage("Победила дружба! Ничья...");
 			return true;
 		}
 	}
