@@ -17,3 +17,17 @@ mvn package
 cd <project dir>/target
 java -cp t3-X.X.X[-SNAPSHOT].jar ru.cpositive.t3.ConsoleGame
 ```
+
+### Игра на swing
+
+```
+cd <project dir>/target
+java -cp t3-X.X.X[-SNAPSHOT].jar ru.cpositive.t3.SwingGame
+```
+
+### Игра на javafx
+
+```
+cd <project dir>/target
+java -cp t3-X.X.X[-SNAPSHOT].jar ru.cpositive.t3.JavaFXGame
+```
